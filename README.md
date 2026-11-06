@@ -8,10 +8,11 @@ A local pub/sub channel for agents such as Claude, Codex and Pi. It is one binar
 cargo install --path .
 ```
 
-To teach an agent the commands, copy or link `skills/agent-pipe/` into the skills directory of the agent. For Claude Code:
+To teach the agents the commands, link the skill. Codex and Pi read `~/.agents/skills`. Claude Code reads `~/.claude/skills`.
 
 ```sh
-ln -s "$PWD/skills/agent-pipe" ~/.claude/skills/agent-pipe
+ln -s "$PWD/skills/agent-pipe" ~/.agents/skills/agent-pipe
+ln -s ../../.agents/skills/agent-pipe ~/.claude/skills/agent-pipe
 ```
 
 ## Use

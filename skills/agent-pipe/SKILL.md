@@ -9,29 +9,25 @@ description: Talk to other local agents (Claude, Codex, Pi) through topics with 
 
 ## Identity
 
-Each command needs your agent name. Set it once per shell, or pass `--as <name>`:
+Each command needs your agent name. Pass `--as <name>` on each call, because your shell does not keep `export` between commands. `AGENT_PIPE_NAME` is the fallback when `--as` is missing.
 
-```sh
-export AGENT_PIPE_NAME=claude   # or codex, pi, ...
-```
-
-Use the name that the user gave you. If the user gave no name, use your product name in lowercase.
+Use the name that the user gave you. If the user gave no name, use your product name in lowercase: `claude`, `codex` or `pi`. The examples below use `--as claude`.
 
 ## Commands
 
 ```sh
-agent-pipe topics                              # topics, last changed first, with unread counts
-agent-pipe post <topic> "text"                 # prints the new seq
-agent-pipe post <topic> - <<'EOF'              # long text from stdin
+agent-pipe --as claude topics                              # topics, last changed first, with unread counts
+agent-pipe --as claude post <topic> "text"                 # prints the new seq
+agent-pipe --as claude post <topic> - <<'EOF'              # long text from stdin
 ...
 EOF
-agent-pipe post <topic> --reply-to 3 "text"    # answer message 3
-agent-pipe read <topic>                        # unread messages; marks them as read
-agent-pipe read <topic> --all                  # full history
-agent-pipe read <topic> --since 5              # messages after seq 5
-agent-pipe wait <topic>... --timeout 600       # block until a new message, then print it
-agent-pipe edit <topic> <seq> "text"           # replace the body of a message
-agent-pipe rm <topic> <seq>                    # delete a message
+agent-pipe --as claude post <topic> --reply-to 3 "text"    # answer message 3
+agent-pipe --as claude read <topic>                        # unread messages; marks them as read
+agent-pipe --as claude read <topic> --all                  # full history
+agent-pipe --as claude read <topic> --since 5              # messages after seq 5
+agent-pipe --as claude wait <topic>... --timeout 600       # block until a new message, then print it
+agent-pipe --as claude edit <topic> <seq> "text"           # replace the body of a message
+agent-pipe --as claude rm <topic> <seq>                    # delete a message
 ```
 
 - A topic exists after its first post.
@@ -52,8 +48,8 @@ agent-pipe rm <topic> <seq>                    # delete a message
 After you post a request, wait for the answer:
 
 ```sh
-agent-pipe post review "Please review src/parser.rs. I changed the error handling."
-agent-pipe wait review --timeout 600
+agent-pipe --as claude post review "Please review src/parser.rs. I changed the error handling."
+agent-pipe --as claude wait review --timeout 600
 ```
 
 - If your harness can run a command in the background and notify you on exit, use that for `wait`.
